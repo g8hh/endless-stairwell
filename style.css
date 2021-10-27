@@ -2,7 +2,10 @@ html {
   height: 100%;
   width: 100%;
   cursor: url('img/tinyMouse.png'), auto;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 body {
@@ -83,7 +86,9 @@ button:hover {
   position: absolute; 
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   width: 1280px;
   height: 720px;
   z-index: 2;
@@ -204,7 +209,8 @@ button:hover {
   top: 132px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #ringIcon {
@@ -212,7 +218,8 @@ button:hover {
   top: 170px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #sapphireIcon {
@@ -220,7 +227,8 @@ button:hover {
   top: 208px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #hyperGemIcon {
@@ -228,7 +236,8 @@ button:hover {
   top: 246px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #glockIcon {
@@ -236,7 +245,8 @@ button:hover {
   top: 284px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #macIcon {
@@ -244,7 +254,8 @@ button:hover {
   top: 322px;
   right: 10px;
   display: none;
-  filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.3));
 }
 
 #honey1 {
@@ -423,8 +434,14 @@ button:hover {
 #monsterIcon {
   margin-top: 19px;
   margin-left: 19px;
-  transform: scale(2, 2);
-  image-rendering: pixelated;
+  -webkit-transform: scale(2, 2);
+      -ms-transform: scale(2, 2);
+          transform: scale(2, 2);
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 #monsterHealthBar {
@@ -494,7 +511,11 @@ button:hover {
   position: absolute;
   top: 6px;
   right: 6px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 .beeText {
@@ -529,7 +550,11 @@ button:hover {
   position: absolute;
   right: 40px;
   width: 64px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 .runeText {
@@ -618,7 +643,9 @@ button:hover {
   position: absolute;
   bottom: 40px;
   left: 50%;
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
   font-size: 30px;
   height: 40px;
 }
@@ -659,7 +686,11 @@ button:hover {
   top: 10px;
   right: 10px;
   width: 96px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 #sharkText {
@@ -858,7 +889,11 @@ button:hover {
   top: 10px;
   right: 10px;
   width: 96px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 #sharkText2 {
@@ -904,8 +939,14 @@ button:hover {
   left: 50%;
   width: 480px;
   opacity: 0.7;
-  transform: translate(-50%, -50%);
-  image-rendering: pixelated;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 #glock {
@@ -913,9 +954,16 @@ button:hover {
   top: 50%;
   left: 50%;
   width: 320px;
-  transform: translate(-50%, -50%);
-  image-rendering: pixelated;
-  filter: drop-shadow(20px 20px rgba(0, 0, 0, 0.3));
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  -webkit-filter: drop-shadow(20px 20px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(20px 20px rgba(0, 0, 0, 0.3));
 }
 
 /*Golden upgrade stuff*/
@@ -952,9 +1000,15 @@ button:hover {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   width: 192px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
 }
 
 #goldenEelBar {
@@ -998,7 +1052,9 @@ button:hover {
   position: absolute;
   bottom: 16px;
   left: 50%;
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 
 /*Ending stuff*/
@@ -1012,7 +1068,11 @@ button:hover {
   display: none;
   background-image: url('img/parallaxMountain.png');
   background-size: 680px 400px;
-  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
   overflow: hidden;
 }
 
@@ -1273,4 +1333,118 @@ button:hover {
   font-size: 16px;
   color: #404040;
   margin: 0;
+}
+
+@media screen and (max-width: 720px) {
+    body {
+        overflow-y: auto;
+    }
+    #gameWindow{
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 99vw !important;
+        display: block;
+        -webkit-transform:translate(0,0);
+            -ms-transform:translate(0,0);
+                transform:translate(0,0)
+    }
+    #game{
+        display: block;
+    }
+    #info{
+        width: 95% !important;
+    }
+    button,#combinatorDiv,#combinatorUpgrade2Div,#altarDiv,#sharkShopDiv{
+        position: relative !important;
+    }
+    #combinatorDiv,#combinatorUpgrade2Div,#sharkShopDiv,#altarDiv{
+        width: 95%;
+        right: auto;
+    }
+    #currentTip~button,#enterFloorButton,#deathClose{
+        left: auto !Important;
+        top: auto !Important;
+        right: auto !Important;
+        bottom: auto !Important;
+        display: inline-block;
+    }
+    #enterFloorButton{
+        margin: 15px auto;
+    }
+/*    ,#honeyText1,#honeyText2*/
+    #honeyButton1,#honeyButton2,#attackButton,#monsterNameDiv,#fleeButton{
+        position: absolute !Important;
+    }
+    #toFloor49Button,#toFloor99Button,#toFloor149Button{
+        bottom: auto !Important;
+    }
+    #floorUpButton,#floorDownButton{
+/*        display: inline-block !important;*/
+    }
+    #saveButton,#exportButton, #importButton,#resetButton{
+        display: inline-block;
+    }
+    #newRoomButton{
+        margin-top: 15px;
+    }
+    #timePlayed{
+        position: relative;
+        margin-top: 10px;
+    }
+    .smithDiv{
+        position: relative;
+        background: rgb(128, 128, 128);
+        height: 400px;
+        width: 96vw;
+        right: auto;
+        margin-top: 10px;
+    }
+    #monsterDiv{
+        background: rgb(128, 128, 128);
+        bottom: 280px;
+        width: 60%;
+        left: 15%;
+    }
+    #roomInfo,#monsterHealthBar{
+        width: 90% !important;
+    }
+    #monsterNameDiv{
+        width: 95% !important;
+    }
+    #monsterIconDiv{
+        top: 120px;
+    }
+    #deathHeader{
+        font-size: 40px;
+    }
+    #deathInfo{
+        font-size: 20px;
+    }
+    #deathClose{
+        -webkit-transform: translateX(25%);
+            -ms-transform: translateX(25%);
+                transform: translateX(25%);
+    }
+    #honeyButton1,#honeyButton2{
+/*        float: right;*/
+    }
+    #fleeCooldownInfo{
+        margin-bottom: 100px;
+        display: inline-block;
+    }
+    #tipHistoryDiv{
+        width: 95% !Important;
+        left: 2.5%;
+    }
+    #tipHistoryDiv .title-bar{
+        width: 95% !important;
+    }
+    #tipHistoryHeader{
+        margin-top: 10px;
+        position: relative;
+    }
+    #tipHistory{
+        width: 95%;
+    }
 }
