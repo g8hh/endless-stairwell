@@ -1415,6 +1415,9 @@ button:hover {
     #monsterIconDiv{
         top: 120px;
     }
+    #extrasDiv{
+        height: 300px;
+    }
     #deathHeader{
         font-size: 40px;
     }
