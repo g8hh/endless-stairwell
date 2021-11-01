@@ -98,7 +98,7 @@ function reset() {
 }
 
 function hardReset() {
-  if (confirm("您确定要重置吗？ 你将失去一切！")) {
+  if (confirm("你确定要硬重置？这将清空你的游戏进度！")) {
     reset()
     save()
     location.reload()
@@ -114,21 +114,21 @@ setInterval(save, 5000)
 function exportGame() {
   save()
   navigator.clipboard.writeText(btoa(JSON.stringify(game))).then(function() {
-    alert("已复制的剪切板!")
+    alert("已复制到剪贴板！")
   }, function() {
-    alert("复制到剪贴板时出错，请重试...")
+    alert("无法复制，请重试")
   });
 }
 
 function importGame() {
-  loadgame = JSON.parse(atob(prompt("在这里粘贴你的的存档:")))
+  loadgame = JSON.parse(atob(prompt("输入你的存档：")))
   if (loadgame && loadgame != null && loadgame != "") {
     reset()
     loadGame(loadgame)
     save()
   }
   else {
-    alert("无效输入.")
+    alert("输入无效。")
   }
 }
 
@@ -313,8 +313,8 @@ function loadGame(loadgame) {
   if (game.currentFloor <= 0 && game.cocoaBars < 10 && game.darkOrbs == 0) {document.getElementById("floorDownButton").disabled = true}
   else if (game.currentFloor <= -1) {document.getElementById("floorDownButton").disabled = true}
   else {document.getElementById("floorDownButton").disabled = false}
-  if (game.currentFloor == 0) {$("#currentFloor").html("the ground floor")}
-  else {$("#currentFloor").html("floor " + game.currentFloor)}
+  if (game.currentFloor == 0) {$("#currentFloor").html("地面")}
+  else {$("#currentFloor").html(game.currentFloor + " 层")}
   if (game.currentFloor == 500) {document.getElementsByClassName("container")[1].style.backgroundColor = "#808080"}
   else if (game.currentFloor > 350) {document.getElementsByClassName("container")[1].style.backgroundColor = "#c0a030"}
   else if (game.currentFloor > 304) {document.getElementsByClassName("container")[1].style.backgroundColor = "#7090b0"}
@@ -337,10 +337,10 @@ function loadGame(loadgame) {
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("newRoomButton").style.display = "block"
     document.getElementById("toStairwellButton").style.display = "block"
-    if (game.currentFloor > 50) {tierMessage = ", tier 2"}
+    if (game.currentFloor > 50) {tierMessage = ", 层级 2"}
     else {tierMessage = ""}
-    if (game.roomsExplored == 1) {$("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. They all contain the same beige carpet, and are sparingly littered with furniture. It feels like something's in here with you...<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")}
-    else {$("#info").html("<b>Info</b><br>You are in an endless expanse of rooms.<br><br>You have explored " + game.roomsExplored + " rooms. You are " + game.roomsFromStairwell + " rooms away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")}
+    if (game.roomsExplored == 1) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。它们都有着完全一致的米黄色地毯，里面点缀着少量家具。有什么人似乎也在这里...<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度： " + game.floorDifficulty + tierMessage + ".")}
+    else {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。<br><br>你走过了 " + game.roomsExplored + " 个房间。你还需要经过 " + game.roomsFromStairwell + " 个房间才能回到楼梯。本层难度： " + game.floorDifficulty + tierMessage + ".")}
   }
 
   if (game.specialItemsAcquired[0] == true) {document.getElementById("blueKeyIcon").style.display = "block"}
@@ -352,7 +352,7 @@ function loadGame(loadgame) {
     document.getElementById("fleeButton").style.display = "block"
   }
 
-  if (game.xp.gte(4980021) && game.sharkUpgradesBought[0] != true) {$("#XPSoftcap").html(" (softcapped)")}
+  if (game.xp.gte(4980021) && game.sharkUpgradesBought[0] != true) {$("#XPSoftcap").html(" （已达软上限）")}
   else {$("#XPSoftcap").html("")}
 
   if (game.buffTimes[0] > 0) setTimeout(buffDown1, 1000)
@@ -455,18 +455,18 @@ function loadGame(loadgame) {
   if (game.combinatorUpgradesBought.length == 4) game.combinatorUpgradesBought = [false, false, false, false, false, false, false, false, false, false]
   if (game.combinatorUpgradesBought[0] == true) {
     document.getElementsByClassName("combinatorButton")[0].disabled = false
-    document.getElementsByClassName("combinatorText")[0].innerHTML = "Hyperplasm"
+    document.getElementsByClassName("combinatorText")[0].innerHTML = "超级蜜浆"
   }
   if (game.combinatorUpgradesBought[2] == true && game.roomsExplored == 0) {
     document.getElementById("toFloor248Button").style.display = "block"
   }
   if (game.combinatorUpgradesBought[3] == true) {
     document.getElementsByClassName("combinatorButton")[1].disabled = false
-    document.getElementsByClassName("combinatorText")[1].innerHTML = "Dark bar"
+    document.getElementsByClassName("combinatorText")[1].innerHTML = "黑暗砖块"
   }
   if (game.combinatorUpgradesBought[4] == true) {
     document.getElementsByClassName("combinatorButton")[2].disabled = false
-    document.getElementsByClassName("combinatorText")[2].innerHTML = "Star bar"
+    document.getElementsByClassName("combinatorText")[2].innerHTML = "星空砖块"
   }
   if (game.combinatorUpgradesBought[9] == true) {
     document.getElementById("hyperGemIcon").style.display = "block"
@@ -527,7 +527,7 @@ function loadGame(loadgame) {
     finalTimePlayedMinutes = Math.floor(game.finalTime / 60) % 60
     finalTimePlayedSeconds = game.finalTime % 60
     finalTimeString = (finalTimePlayedHours + ":" + ((finalTimePlayedMinutes < 10 ? '0' : '') + finalTimePlayedMinutes) + ":" + ((finalTimePlayedSeconds < 10 ? '0' : '') + finalTimePlayedSeconds))
-    $("#finalTime").html("Final time: " + finalTimeString)
+    $("#finalTime").html("完成时间：" + finalTimeString)
   }
 }
 
@@ -629,7 +629,7 @@ function updateSmall() {
   document.getElementsByClassName("buffText")[2].innerHTML = game.buffTimes[2]
 
   $("#fleeCooldown").html(game.fleeCooldown)
-  if (game.specialItemsAcquired[1] == true) $("#fleeCooldownInfo").html("Flee cooldown: " + game.fleeCooldown + "s")
+  if (game.specialItemsAcquired[1] == true) $("#fleeCooldownInfo").html("还有 " + game.fleeCooldown + " 秒可逃跑")
   if (game.energy == 100) {document.getElementById("fleeButton").disabled = false}
   else {document.getElementById("fleeButton").disabled = true}
 
@@ -706,37 +706,37 @@ setInterval(updateSmall, 15)
 function updateInfo() {
   if (game.roomsExplored == 0) {
     if (game.currentFloor == 0) {
-      if (game.cocoaBars >= 10 || game.darkOrbs > 0) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairs are carpeted in beige, and the walls are warm and bright. The landings are lit by continuous windows with nothing but white on the other side.<br><br>The stairs below are now open to you.")}
-      else {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairs are carpeted in beige, and the walls are warm and bright. The landings are lit by continuous windows with nothing but white on the other side.<br><br>You feel safe to go up, but a paralyzing fear sets in when you try to go below the ground floor.")}
+      if (game.cocoaBars >= 10 || game.darkOrbs > 0) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。它们都有着完全一致的米黄色地毯， 墙面温暖而又明亮。透光的玻璃窗照亮了楼梯平台。<br><br>你可以前往平台以下的阶梯。")}
+      else {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。它们都有着完全一致的米黄色地毯， 墙面温暖而又明亮。透光的玻璃窗照亮了楼梯平台。<br><br>你认为这个阶梯是安全的，准备往上走一步。不过每当你试着往上走一步，一种震慑性极强的恐惧感涌上心头。")}
     }
-    else if (game.currentFloor == 50 && game.specialItemsAcquired[1] == false) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 50. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 50 && game.specialItemsAcquired[1] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairs above appear cold and grey, like an old office.")}
-    else if (game.currentFloor == 100 && game.altarUpgradesBought[6] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 100. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 100 && game.altarUpgradesBought[6] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The landings above are indented and filled ankle-deep with water. The walls are covered in tiles.")}
-    else if (game.currentFloor == 150 && game.sharkUpgradesBought[9] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 150. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 150 && game.sharkUpgradesBought[9] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairs above are lined with plush carpet, with warm lighting giving the stairwell a comforting atmosphere.")}
-    else if (game.currentFloor == 200 && game.cocoaBars < 20) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 200. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 200 && game.cocoaBars >= 20) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairs above are a loose dark wood, with weak bulbs hanging above. A cold breeze fills the atmosphere.")}
-    else if (game.currentFloor == 250 && game.combinatorUpgradesBought[9] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 250. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 250 && game.combinatorUpgradesBought[9] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairwell above appears high-class, with detailed wooden walls and smooth marble floors.")}
-    else if (game.currentFloor == 300 && game.combinatorUpgrades2Bought[10] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 300. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 300 && game.combinatorUpgrades2Bought[10] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The walls above are a dark stone, dripping with mysterious blood. The air is humid and everything smells nasty.")}
-    else if (game.currentFloor == 304 && game.monsterBloodUpgradesBought[9] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 304. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 304 && game.monsterBloodUpgradesBought[9] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The landings above are indented and filled ankle-deep with water, just like back in Shark's area. The walls are covered in tiles.")}
-    else if (game.currentFloor == 350 && game.sharkUpgrades2Bought[6] != true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. Going any higher leads you right back to floor 350. You may have to do something to be able to travel further...")}
-    else if (game.currentFloor == 350 && game.sharkUpgrades2Bought[6] == true) {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell. The stairwell above is entirely covered in glistening gold.")}
-    else if (game.currentFloor == 500) {$("#info").html("<b>Info</b><br>You are at the top of a non-endless stairwell.<br><br>You step out of the doorway into a large, uninhabited forest. Mountains stretch into the distance, and the air smells fresher than anywhere in the stairwell. The long journey is over.")}
-    else {$("#info").html("<b>Info</b><br>You are in a seemingly endless stairwell.")}
+    else if (game.currentFloor == 50 && game.specialItemsAcquired[1] == false) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 50 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 50 && game.specialItemsAcquired[1] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。其上的阶梯像旧办公室一样，灰暗而冰冷。")}
+    else if (game.currentFloor == 100 && game.altarUpgradesBought[6] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 100 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 100 && game.altarUpgradesBought[6] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。这个楼梯平台水深齐踝，墙上铺满了瓷砖。")}
+    else if (game.currentFloor == 150 && game.sharkUpgradesBought[9] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 150 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 150 && game.sharkUpgradesBought[9] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。阶梯上铺着毛绒地毯，楼梯平台上温暖的灯光营造出一种舒适的氛围。")}
+    else if (game.currentFloor == 200 && game.cocoaBars < 20) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 200 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 200 && game.cocoaBars >= 20) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。阶梯在一片寒风刺骨的阴暗森林之中，上面挂着昏暗的灯泡。")}
+    else if (game.currentFloor == 250 && game.combinatorUpgradesBought[9] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 250 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 250 && game.combinatorUpgradesBought[9] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。阶梯上是光滑的大理石地面和精致的木制墙壁。")}
+    else if (game.currentFloor == 300 && game.combinatorUpgrades2Bought[10] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 300 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 300 && game.combinatorUpgrades2Bought[10] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。墙壁上有一块滴血的暗色石头，潮湿的空气中充满肮脏的气息。")}
+    else if (game.currentFloor == 304 && game.monsterBloodUpgradesBought[9] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 304 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 304 && game.monsterBloodUpgradesBought[9] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。这个楼梯平台像鲨鱼的地盘一样，水深齐踝，墙上铺满了瓷砖。")}
+    else if (game.currentFloor == 350 && game.sharkUpgrades2Bought[6] != true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。你试着往高处走，每次尝试之后你都回到 350 层。或许你需要做些什么才能继续前进……")}
+    else if (game.currentFloor == 350 && game.sharkUpgrades2Bought[6] == true) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。阶梯上铺满了闪闪发光的黄金。T")}
+    else if (game.currentFloor == 500) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。<br><br>你走出大门，进入一片荒无人烟的巨大森林。森林中的空气比阶梯中还要清新，远方是绵延的山脉。漫长的旅途已告尾声。")}
+    else {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。")}
   
     //Smith floor
     if (game.currentFloor == game.smithFloor) {
-      $("#floorContentsInfo").html("This floor has some kind of smithing area. Maybe you'll<br>be able to find some runes to use at it?")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）锻造工厂。或许你能<br>在这找到一些有用的符文？")
       document.getElementById("enterFloorButton").style.display = "none"
       if (game.currentTip == 2 || game.currentTip == 3) game.currentTip = 4
     }
     //Smith 2 floor
     else if (game.currentFloor == game.smithFloor + 1) {
-      $("#floorContentsInfo").html("This floor has some kind of smithing area. Maybe you'll<br>be able to find some runes to use at it?")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）锻造工厂。或许你能<br>在这找到一些有用的符文？")
       document.getElementById("enterFloorButton").style.display = "none"
       if (game.currentTip == 2 || game.currentTip == 3) game.currentTip = 4
     }
@@ -745,54 +745,54 @@ function updateInfo() {
       document.getElementById("enterFloorButton").style.display = "block"
       if (game.specialItemsAcquired[0]) {
         document.getElementById("enterFloorButton").disabled = false
-        $("#floorContentsInfo").html("This floor has a <span style='color: #303090'>blue door</span> with a keyhole. It seems you have the key for it.")
+        $("#floorContentsInfo").html("这一层有个 <span style='color: #303090'>蓝色的门</span> ，门上有一个钥匙孔。你似乎有一把蓝色的钥匙。")
       }
       else {
         document.getElementById("enterFloorButton").disabled = true
-        $("#floorContentsInfo").html("This floor has a <span style='color: #303090'>blue door</span> with a keyhole. It is locked. Maybe if you become stronger you'll be able to gain the key?")
+        $("#floorContentsInfo").html("这一层有个 <span style='color: #303090'>蓝色的门</span> ，门上有一个钥匙孔。门是锁着的。你需要变得更强，然后找到这把钥匙。")
       }
     }
     //Altar floor
     else if (game.currentFloor == 99) {
-      $("#floorContentsInfo").html("This floor has some kind of sacrificial altar.")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）祭坛。")
       document.getElementById("enterFloorButton").style.display = "none"
       document.getElementById("prestigeHotkey").style.display = "block"
       if (game.currentTip == 7) game.currentTip = 8
     }
     //Shark shop floor
     else if (game.currentFloor == 149) {
-      $("#floorContentsInfo").html("This floor has some kind of upgrade shop.")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）升级商店。")
       if (game.sharkCutscenesViewed == 3) {
         $("#sharkText").html("*Dead noises*")
         document.getElementById("shark").src = "img/sharkDead.png"
         document.getElementById("enterFloorButton").style.display = "none"
       }
       else {
-        $("#sharkText").html("Woah-oah my GOD, a CUSTOMER! Welcome, welcome! I have things! PLEASE BUY SOMETHING!!!!!!!")
+        $("#sharkText").html("提安哪，一个大客户！欢迎！欢迎！我有些好东西！来选一个吧！！！！！！！")
         document.getElementById("shark").src = "img/shark.png"
         document.getElementById("enterFloorButton").style.display = "none"
       }
     }
     //Cocoa bar floor
     else if (game.currentFloor == 151) {
-      $("#floorContentsInfo").html("This floor has some kind of ingot forge.")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）铸造厂。")
       document.getElementById("enterFloorButton").style.display = "none"
       if (game.currentTip == 12) game.currentTip = 13
     }
     //Combinator upgrade floor
     else if (game.currentFloor == 151) {
-      $("#floorContentsInfo").html("This floor has some kind of ingot forge.")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）铸造厂。")
       document.getElementById("enterFloorButton").style.display = "none"
       if (game.currentTip == 12) game.currentTip = 13
     }
     //Gem eel boss floor
     else if (game.currentFloor == 303) {
       document.getElementById("enterFloorButton").style.display = "block"
-      $("#floorContentsInfo").html("This floor has a massive door leading to a large boss room.")
+      $("#floorContentsInfo").html("这一层有个通往 BOSS 所在房间的门。")
     }
     //Shark 2 floor
     else if (game.currentFloor == 305) {
-      $("#floorContentsInfo").html("This floor has some kind of upgrade shop.")
+      $("#floorContentsInfo").html("这一层有个（某种意义上的）升级商店。")
       document.getElementById("enterFloorButton").style.display = "none"
       if (game.sharkCutscenesViewed == 0) {
         document.getElementById("continueButton").style.display = "block"
@@ -810,7 +810,7 @@ function updateInfo() {
         game.inSharkCutscene = true
       }
       else if (game.sharkCutscenesViewed == 1 && game.jellyFought != true) {
-        $("#sharkText2").html("I'll be waiting here until you can defeat Jelly!")
+        $("#sharkText2").html("我会在这等着你，直到你鲨了那只水母！")
         document.getElementById("continueButton").style.display = "none"
       }
       else if (game.sharkCutscenesViewed == 1 && game.jellyFought == true) {
@@ -829,7 +829,7 @@ function updateInfo() {
         game.inSharkCutscene = true
       }
       else if (game.sharkCutscenesViewed == 2 && game.jellyDefeated != true) {
-        $("#sharkText2").html("I'll be waiting here until you can defeat Jelly!")
+        $("#sharkText2").html("我会在这等着你，直到你鲨了那只水母！")
         document.getElementById("continueButton").style.display = "none"
       }
       else if (game.sharkCutscenesViewed == 2 && game.jellyDefeated == true) {
@@ -847,7 +847,7 @@ function updateInfo() {
         game.inSharkCutscene = true
       }
       else if (game.sharkCutscenesViewed == 3) {
-        $("#sharkText2").html("*Dead noises*")
+        $("#sharkText2").html("*巨大的噪声*")
         document.getElementById("shark2").src = "img/sharkDead.png"
         document.getElementById("continueButton").style.display = "none"
       }
@@ -856,17 +856,17 @@ function updateInfo() {
     else if (game.currentFloor == 349) {
       if (game.jellyDefeated == true) {document.getElementById("enterFloorButton").style.display = "none"}
       else {document.getElementById("enterFloorButton").style.display = "block"}
-      if (game.jellyDefeated == true) {$("#floorContentsInfo").html("This floor has a door leading to an expansive shop. There's no point taking any items, they're all pretty terrible.")}
-      else {$("#floorContentsInfo").html("This floor has a door leading to an expansive shop. You can hear some kind of asshole shopkeeper through the door.")}
+      if (game.jellyDefeated == true) {$("#floorContentsInfo").html("这一层有一个门，门后面是一个贩卖高价物品的商店。那些东西都太逊了，完全不必去购买它们。")}
+      else {$("#floorContentsInfo").html("这一层有一个门，门后面是一个贩卖高价物品的商店。你能通过它，听到傻 X 店主的声音。")}
     }
     //Dark orb floor
     else if (game.currentFloor == -1) {
-      $("#floorContentsInfo").html("This floor has an enormous dark room, dimly lit with candles all around. In the middle sits a large, unknown machine.")
+      $("#floorContentsInfo").html("这一层有一个门，门后面是一个巨大的暗室。房间里面放满了点亮的蜡烛。房间的中央是一个未知的大型机械。")
       document.getElementById("enterFloorButton").style.display = "none"
     }
     else if (game.floorsWithRooms[0].includes(game.currentFloor) || game.floorsWithRooms[1].includes(game.currentFloor) || game.floorsWithRooms[2].includes(game.currentFloor) || game.floorsWithRooms[3].includes(game.currentFloor) || game.floorsWithRooms[4].includes(game.currentFloor) || game.floorsWithRooms[5].includes(game.currentFloor) || game.floorsWithRooms[6].includes(game.currentFloor) || game.floorsWithRooms[7].includes(game.currentFloor)) {
       document.getElementById("enterFloorButton").disabled = false
-      $("#floorContentsInfo").html("This floor has a door leading to a variety of rooms.")
+      $("#floorContentsInfo").html("这一层有一个门，门后面有各种各样的房间。")
       document.getElementById("enterFloorButton").style.display = "block"
     }
     else {
@@ -930,7 +930,7 @@ function updateInfo() {
         timePlayedMinutes = Math.floor(game.finalTime / 60) % 60
         timePlayedSeconds = game.finalTime % 60
         timeString = (timePlayedHours + ":" + ((timePlayedMinutes < 10 ? '0' : '') + timePlayedMinutes) + ":" + ((timePlayedSeconds < 10 ? '0' : '') + timePlayedSeconds))
-        $("#finalTime").html("Final time: " + timeString)
+        $("#finalTime").html("完成时间：" + timeString)
       }
     }
     else {document.getElementById("endingDiv").style.display = "none"}
@@ -982,8 +982,8 @@ function floorUp() {
   else if (game.currentFloor >= 350 && game.sharkUpgrades2Bought[6] != true) {document.getElementById("floorUpButton").disabled = true}
   else if (game.currentFloor >= 499 && game.goldenEelDefeated != true) {document.getElementById("floorUpButton").disabled = true}
   else if (game.currentFloor >= 500) {document.getElementById("floorUpButton").disabled = true}
-  if (game.currentFloor == 0) {$("#currentFloor").html("the ground floor")}
-  else {$("#currentFloor").html("floor " + game.currentFloor)}
+  if (game.currentFloor == 0) {$("#currentFloor").html("地面")}
+  else {$("#currentFloor").html(game.currentFloor +" 层")}
   updateInfo()
 }
 
@@ -1001,8 +1001,8 @@ function floorDown() {
   else if (game.currentFloor < 500) {document.getElementsByClassName("container")[1].style.backgroundColor = "#c0a030"}
   if (game.currentFloor <= 0 && game.cocoaBars < 10 && game.darkOrbs == 0) document.getElementById("floorDownButton").disabled = true
   else if (game.currentFloor <= -1) document.getElementById("floorDownButton").disabled = true
-  if (game.currentFloor == 0) {$("#currentFloor").html("the ground floor")}
-  else {$("#currentFloor").html("floor " + game.currentFloor)}
+  if (game.currentFloor == 0) {$("#currentFloor").html("地面")}
+  else {$("#currentFloor").html(game.currentFloor +" 层")}
   updateInfo()
 }
 
@@ -1036,13 +1036,13 @@ function enterFloor() {
   if (game.currentFloor == 49) {game.floorDifficulty = 6}
   else if (game.currentFloor == 303) {
     game.floorDifficulty = 1
-    $("#roomInfo").html("This room has a boss!")
+    $("#roomInfo").html("这个房间有一个 BOSS!")
     document.getElementById("roomInfo").style.color = "#800000"
     monsterEncounter()
   }
   else if (game.currentFloor == 349) {
     game.floorDifficulty = 1
-    $("#roomInfo").html("This room has a boss!")
+    $("#roomInfo").html("这个房间有一个 BOSS!")
     document.getElementById("roomInfo").style.color = "#800000"
     monsterEncounter()
   }
@@ -1058,44 +1058,44 @@ function enterFloor() {
   game.totalDifficulty = ExpantaNum(game.floorDifficulty).add(game.roomsExplored / 100)
   
   if (game.currentFloor > 350) {
-    tierMessage = ", tier 8"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. The rooms are completely covered in gold, to the point that it hurts your eyes.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 8"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。每个房间都铺满了亮瞎眼的黄金。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor == 349) {
-    tierMessage = ", tier 7.5"
-    $("#info").html("<b>Info</b><br>You are in an expansive shop.") 
+    tierMessage = ", 层级 7.5"
+    $("#info").html("<b>概况</b><br>你在一个贩卖高价物品的商店。") 
   }
   else if (game.currentFloor > 304) {
-    tierMessage = ", tier 7"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. Every room contains knee-deep water with stairs to the doors, and blue tiled walls.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 7"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。每个房间水深齐膝，墙上铺满了蓝色的瓷砖。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor == 303) {
-    tierMessage = ", tier 6.5"
-    $("#info").html("<b>Info</b><br>You are in a large and menacing room.") 
+    tierMessage = ", 层级 6.5"
+    $("#info").html("<b>概况</b><br>你在一个危机重重的大房间。") 
   }
   else if (game.currentFloor > 250) {
-    tierMessage = ", tier 6"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. These rooms are beautifully decorated, with rich dark wooden walls and smooth marble floors. Various seats, tables and carpets line the spaces.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 6"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。每个房间都装饰得十分美丽，有着光滑的大理石地面和昏暗的木制墙壁。房间里面排列着各种各样的座位、桌子和地毯。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor > 200) {
-    tierMessage = ", tier 5"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. Instead of rooms, the stairwell's doors open up to a field and paths at night, dotted with street lights and filled with a thick fog. Trees create circles around fields resembling the rooms of the floors below.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 5"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。这个楼梯平台并不通往房间，而是夜晚的田野和小路。街灯点缀着那一片雾蒙蒙。田边环绕着树木，它们代表楼梯平台以下的房间。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor > 150) {
-    tierMessage = ", tier 4"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. The place resembles an empty apartment, with various scattered windows giving a view high above some vast city at night. The windows are seemingly unbreakable.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 4"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。每个房间都是一个空旷的公寓，透过窗户能看到一些城市的夜灯。这些窗户似乎是坚不可摧的。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor > 100) {
-    tierMessage = ", tier 3"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. Every room contains knee-deep water with stairs to the doors, and blue tiled walls.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 3"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。每个房间水深齐膝，墙上铺满了蓝色的瓷砖。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else if (game.currentFloor > 50) {
-    tierMessage = ", tier 2"
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. They contain a variety of office furniture, with some bland paintings on the walls.<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+    tierMessage = ", 层级 2"
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。它们都有着各种办公家具，墙壁上挂着风格冷淡的油画。<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
   }
   else {
     tierMessage = ""
-    $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms. They all contain the same beige carpet, and are sparingly littered with furniture. It feels like something's in here with you...<br><br>You have explored 1 room. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".") 
+    $("#info").html("<b>概况</b><br>这一层似乎有无限多的房间。它们都有着完全一致的米黄色地毯，里面点缀着少量家具。有什么人似乎也在这里...<br><br>你走过了 1 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度： " + game.floorDifficulty + tierMessage + ".") 
   }
 }
 
@@ -1104,7 +1104,7 @@ function newRoom() {
   if (Math.floor(Math.random() * Math.min(game.roomsExplored - 1, 30)) == 0) {game.roomsFromStairwell++}
   game.totalDifficulty = ExpantaNum(game.floorDifficulty).add(game.roomsExplored / 100)
   if (game.currentFloor > 250 && game.currentFloor <= 300 && game.totalDifficulty.gt(5) && game.combinatorUpgrades2Bought[5] != true) game.totalDifficulty = ExpantaNum(5)
-  $("#info").html("<b>Info</b><br>You are in an endless expanse of rooms.<br><br>You have explored " + game.roomsExplored + " rooms. You are " + game.roomsFromStairwell + " rooms away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")
+  $("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。<br><br>你走过了 " + game.roomsExplored + " 个房间。你还需要经过 " + game.roomsFromStairwell + " 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")
 
   roomCheck()
 }
@@ -1157,8 +1157,8 @@ function toStairwell() {
     game.roomsFromStairwell--
     game.returningToStairwell = true
     document.getElementById("newRoomButton").disabled = true
-    if (game.roomsFromStairwell != 1) {$("#info").html("<b>Info</b><br>You are in an endless expanse of rooms.<br><br>You have explored " + game.roomsExplored + " rooms. You are " + game.roomsFromStairwell + " rooms away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")}
-    else {$("#info").html("<b>Info</b><br>You are in an endless expanse of rooms.<br><br>You have explored " + game.roomsExplored + " rooms. You are 1 room away from the stairwell. This floor's difficulty is " + game.floorDifficulty + tierMessage + ".")}
+    if (game.roomsFromStairwell != 1) {$("#info").html("<b>概况</b><br>你在一个看似无限的阶梯之中。<br><br>你走过了 " + game.roomsExplored + " 个房间。你还需要经过 " + game.roomsFromStairwell + " 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")}
+    else {$("#info").html("<b>Info</b><br>你在一个看似无限的阶梯之中。<br><br>你走过了 " + game.roomsExplored + " 个房间。你还需要经过 1 个房间才能回到楼梯。本层难度：" + game.floorDifficulty + tierMessage + ".")}
   
     roomCheck()
   }
@@ -1166,7 +1166,7 @@ function toStairwell() {
 
 function roomCheck() {
   if (Math.floor(Math.random() * 100) >= 92) {
-    $("#roomInfo").html("This room has a monster!")
+    $("#roomInfo").html("这个房间有一个怪物！")
     document.getElementById("roomInfo").style.color = "#800000"
     monsterEncounter()
   }
@@ -1175,7 +1175,7 @@ function roomCheck() {
     document.getElementById("roomInfo").style.color = "black"
   }
   else {
-    $("#roomInfo").html("This room contains an item!")
+    $("#roomInfo").html("这个房间有一个物品！")
     document.getElementById("roomInfo").style.color = "#006000"
     randomItem()
   }
@@ -1209,11 +1209,11 @@ function monsterEncounter() {
     game.monsterMaxHealth = ExpantaNum("JJ10000")
     game.jellyFought = true
   }
-  else if (game.currentFloor > 304) {game.monsterMaxHealth = ExpantaNum("J" + ExpantaNum.hyper(monsters[monsterType - 1].health.mul(game.totalDifficulty.sub(0.6)).sub(2).floor())(10,(Math.random() * 8 + 2)))}
+  else if (game.currentFloor > 304) {game.monsterMaxHealth = ExpantaNum("J" + ExpantaNum.hyper(monsters[monsterType - 1].health.mul(game.totalDifficulty.sub(0.6)).floor())(10,(Math.random() * 8 + 2)))}
   else if (game.currentFloor == 303) {game.monsterMaxHealth = ExpantaNum(gemEelLevels[game.gemEelsBeaten])}
-  else if (game.currentFloor > 250) {game.monsterMaxHealth = ExpantaNum.hyper(monsters[monsterType - 1].health.mul(game.totalDifficulty.sub(0.7)).floor())(10,(Math.random() * 8 + 2)).mul("10^^10")}
-  else if (game.currentFloor > 200) {game.monsterMaxHealth = ExpantaNum(10).pent(ExpantaNum(20).pow(monsters[monsterType - 1].health.pow(game.totalDifficulty.sub(1.3))))}
-  else if (game.currentFloor > 150) {game.monsterMaxHealth = ExpantaNum(10).tetr(ExpantaNum(monsters[monsterType - 1].health).mul(Math.random() * 0.2 + 0.8).mul(game.totalDifficulty).sub(6))}
+  else if (game.currentFloor > 250) {game.monsterMaxHealth = ExpantaNum.hyper(monsters[monsterType - 1].health.mul(game.totalDifficulty.sub(0.6)).floor())(10,(Math.random() * 8 + 2))}
+  else if (game.currentFloor > 200) {game.monsterMaxHealth = ExpantaNum(10).pent(ExpantaNum(20).pow(monsters[monsterType - 1].health.pow(game.totalDifficulty.sub(1))))}
+  else if (game.currentFloor > 150) {game.monsterMaxHealth = ExpantaNum(10).tetr(ExpantaNum(monsters[monsterType - 1].health).mul(Math.random() * 0.2 + 0.8).mul(game.totalDifficulty).sub(2))}
   else if (game.currentFloor > 100) {game.monsterMaxHealth = ExpantaNum(10).pow(ExpantaNum(10).pow(monsters[monsterType - 1].health ** (ExpantaNum(Math.random()).mul(0.25).sub(0.2).add(game.totalDifficulty))))}
   else if (game.currentFloor > 50) {game.monsterMaxHealth = monsters[monsterType - 1].health.mul(ExpantaNum(1.5).pow(game.totalDifficulty.mul(3).sub(1))).floor()}
   else {game.monsterMaxHealth = monsters[monsterType - 1].health.mul(ExpantaNum(1.5).pow(game.totalDifficulty.sub(1))).floor()}
@@ -1236,15 +1236,15 @@ function randomItem() {
   if (Math.floor(Math.random() * 100) >= 25) {
     if (Math.floor(Math.random() * 3) == 0) {
       game.runeFragments[0]++
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #b00000'>+1 red rune fragment</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #b00000'>+1 红符文碎片</span>")
     }
     else if (Math.floor(Math.random() * 2) == 0) {
       game.runeFragments[1]++
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #00b000'>+1 green rune fragment</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #00b000'>+1 绿符文碎片</span>")
     }
     else {
       game.runeFragments[2]++
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #0000b0'>+1 blue rune fragment</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #0000b0'>+1 蓝符文碎片</span>")
     }
   }
   else if (Math.floor(Math.random() * 100) >= 40) {
@@ -1253,7 +1253,7 @@ function randomItem() {
     else if (game.darkOrbs >= 2) {game.honey = game.honey.add(100 * 2 ** game.cocoaBars)}
     else if (game.darkOrbs >= 1) {game.honey = game.honey.add(10 * 2 ** game.cocoaBars)}
     else {game.honey = game.honey.add(1)}
-    $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #e8a830'>+1 honey</span>")
+    $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #e8a830'>+1 蜂蜜</span>")
     $("#honey").html(format(game.honey, 0))
   }
   else {
@@ -1261,13 +1261,13 @@ function randomItem() {
       game.specialItemsAcquired[1] = true
       document.getElementById("ringIcon").style.display = "block"
       document.getElementById("fleeButton").style.display = "block"
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: gold'>+1 lucky ring</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: gold'>+1 幸运戒指</span>")
       if (game.currentTip == 6) game.currentTip = 7
     }
     else if (game.level.gte(15) && game.specialItemsAcquired[0] != true) {
       game.specialItemsAcquired[0] = true
       document.getElementById("blueKeyIcon").style.display = "block"
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #303090'>+1 blue key</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #303090'>+1 蓝色钥匙</span>")
       if (game.currentTip == 5) game.currentTip = 6
     }    
     else {
@@ -1276,7 +1276,7 @@ function randomItem() {
       else if (game.darkOrbs >= 2) {game.vanillaHoney = game.vanillaHoney.add(100 * 2 ** game.cocoaBars)}
       else if (game.darkOrbs >= 1) {game.vanillaHoney = game.vanillaHoney.add(10 * 2 ** game.cocoaBars)}
       else {game.vanillaHoney = game.vanillaHoney.add(1)}
-      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #e8c070'>+1 vanilla honey</span>")
+      $("#roomInfo").html(document.getElementById("roomInfo").innerHTML + "<br><span style='color: #e8c070'>+1 香草蜂蜜</span>")
       $("#vanillaHoney").html(format(game.vanillaHoney, 0))
     }
   }
@@ -1391,7 +1391,7 @@ function battleWin() {
   else if (game.darkOrbs >= 1) xpToGet = xpToGet.mul(25)
   if (game.xp.add(xpToGet).gte(4980021) && game.sharkUpgradesBought[0] != true) {
     xpToGet = xpToGet.pow(0.9).div(5)
-    $("#XPSoftcap").html(" (softcapped)")
+    $("#XPSoftcap").html(" （已达软上限）")
   }
   else {
     $("#XPSoftcap").html("")
@@ -1485,8 +1485,8 @@ function battleLose() {
     else if (game.currentFloor > 50) {game.xp = game.xp.div(2.5).ceil()}
     else {game.xp = game.xp.div(1.5).ceil()}
   }
-  if (game.deaths == 1) {$("#deathInfo").html("Since this is your first time, you won't be punished. But next time you'll lose XP, so be careful!")}
-  else {$("#deathInfo").html("You've lost some of your XP.<br>This box is way too big for this message.")}
+  if (game.deaths == 1) {$("#deathInfo").html("这是你第一次死了，你不会受到惩罚。下次你将会失去经验，小心点！")}
+  else {$("#deathInfo").html("你掉了一些经验。<br>这个弹窗实在是太大了。")}
 
   game.fightingMonster = false
   game.monsterAttackCooldown = 3
@@ -1574,7 +1574,7 @@ function consumeHoney(x) {
 
 function cocoaPrestige() {
   if (cocoaHoneyToGet.gt(0)) {
-    if (cocoaHoneyToGet.gte(100) || confirm("Are you sure you want to reset all your progress?")) {
+    if (cocoaHoneyToGet.gte(100) || confirm("你确定要进行重置？")) {
       game.cocoaHoney = game.cocoaHoney.add(cocoaHoneyToGet)
       cocoaReset()
     }
@@ -1705,7 +1705,7 @@ function cocoaReset() {
   updateInfo()
   if (game.cocoaBars < 10 && game.darkOrbs == 0) document.getElementById("floorDownButton").disabled = true
   else {document.getElementById("floorDownButton").disabled = false}
-  $("#currentFloor").html("the ground floor")
+  $("#currentFloor").html("地面")
   if (game.altarUpgradesBought[5] != true) {
     document.getElementById("blueKeyIcon").style.display = "none"
     document.getElementById("ringIcon").style.display = "none"
@@ -1867,7 +1867,7 @@ function buyAltarUpgrade(x) {
 
 function toGroundFloor() {
   game.currentFloor = 0
-  $("#currentFloor").html("the ground floor")
+  $("#currentFloor").html("地面")
   document.getElementById("enterFloorButton").style.display = "none"
   if (game.cocoaBars < 10 && game.darkOrbs == 0) {document.getElementById("floorDownButton").disabled = true}
   else {document.getElementById("floorDownButton").disabled = false}
@@ -1878,7 +1878,7 @@ function toGroundFloor() {
 
 function toFloor49() {
   game.currentFloor = 49
-  $("#currentFloor").html("floor " + game.currentFloor)
+  $("#currentFloor").html(game.currentFloor + "层")
   document.getElementById("enterFloorButton").style.display = "block"
   document.getElementById("floorDownButton").disabled = false
   document.getElementById("floorUpButton").disabled = false
@@ -1889,7 +1889,7 @@ function toFloor49() {
 function toFloor99() {
   if (game.specialItemsAcquired[1] == true) {
     game.currentFloor = 99
-    $("#currentFloor").html("floor " + game.currentFloor)
+    $("#currentFloor").html(game.currentFloor + "层")
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("floorDownButton").disabled = false
     document.getElementById("floorUpButton").disabled = false
@@ -1901,7 +1901,7 @@ function toFloor99() {
 function toFloor149() {
   if (game.specialItemsAcquired[1] == true) {
     game.currentFloor = 149
-    $("#currentFloor").html("floor " + game.currentFloor)
+    $("#currentFloor").html(game.currentFloor + "层")
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("floorDownButton").disabled = false
     document.getElementById("floorUpButton").disabled = false
@@ -1913,7 +1913,7 @@ function toFloor149() {
 function toFloor248() {
   if (game.specialItemsAcquired[1] == true) {
     game.currentFloor = 248
-    $("#currentFloor").html("floor " + game.currentFloor)
+    $("#currentFloor").html(game.currentFloor + "层")
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("floorDownButton").disabled = false
     document.getElementById("floorUpButton").disabled = false
@@ -1925,7 +1925,7 @@ function toFloor248() {
 function toFloor299() {
   if (game.specialItemsAcquired[1] == true) {
     game.currentFloor = 299
-    $("#currentFloor").html("floor " + game.currentFloor)
+    $("#currentFloor").html(game.currentFloor + "层")
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("floorDownButton").disabled = false
     document.getElementById("floorUpButton").disabled = false
@@ -1937,7 +1937,7 @@ function toFloor299() {
 function toFloor351() {
   if (game.specialItemsAcquired[1] == true) {
     game.currentFloor = 351
-    $("#currentFloor").html("floor " + game.currentFloor)
+    $("#currentFloor").html(game.currentFloor + "层")
     document.getElementById("enterFloorButton").style.display = "none"
     document.getElementById("floorDownButton").disabled = false
     document.getElementById("floorUpButton").disabled = false
@@ -2022,14 +2022,14 @@ function buySharkUpgrade(x) {
 
 function randomSharkMessage() {
   if (game.sharkCutscenesViewed < 3) {
-    if (Math.floor(Math.random * 420) == 0) {$("#sharkText").html("YEAH, I BET YOU WANNA BE A [[Big Shark]]! AHAHAHAHA!!!")}
+    if (Math.floor(Math.random * 420) == 0) {$("#sharkText").html("是的，我打赌，你一定想成为一只大鲨鱼！啊哈哈哈！！！")}
     else {$("#sharkText").html(sharkQuotes[Math.floor(Math.random() * sharkQuotes.length)])}
   }
 }
 
 function gainCocoaBars() {
   if (game.cocoaHoney.gte(cocoaBarRequirement)) {
-    if (confirm("Are you sure you want to do this? You will lose all of your cocoa honey!")) {
+    if (confirm("你确定要这样做吗？你会失去所有的可可蜂蜜！")) {
       game.cocoaBars++
       cocoaReset()
       game.cocoaHoney = ExpantaNum(0)
@@ -2077,21 +2077,20 @@ function autoCocoaBars() {
 
 function displayCBM(x) {
   document.getElementById("cocoaBarMilestoneInfo").style.display = "block"
-  if (x==1) {$("#cocoaBarMilestoneText").html("<span  style='font-size: 33px; line-height: 42px;'>1 cocoa bar</span><br>Keep 500,000 XP on reset")}
-  else if (x==2) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>2 cocoa bars</span><br>Keep 10,000,000 XP on reset")}
-  else if (x==3) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>4 cocoa bars</span><br>Cocoa bar effect is much stronger")}
-  else if (x==4) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>5 cocoa bars</span><br>XP is set to cocoa boost amount on cocoa honey resets and cocoa bar resets")}
-  else if (x==5) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>9 cocoa bars</span><br>Multiply cocoa honey gain by 1.000F10<br>Try killing some weak tier 4 enemies to get to the 10th cocoa bar!")}
-  else if (x==6) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>10 cocoa bars</span><br>Gain access to <b>floor -1</b>")}
-  else if (x==7) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>11 cocoa bars</span><br>Enemies above floor 150 drop more XP (1/3)")}
-  else if (x==8) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>13 cocoa bars</span><br>Enemies above floor 150 drop more XP (2/3)")}
-  else if (x==9) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>15 cocoa bars</span><br>Enemies above floor 150 drop more XP (3/3)")}
-  else if (x==10) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>16 cocoa bars</span><br>Enemies above floor 150 drop more XP based on cocoa bars")}
-  else if (x==11) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>19 cocoa bars</span><br>Cocoa honey gain is pentated by 2")}
-  else if (x==12) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>20 cocoa bars</span><br>Forge your shadow ring into a cobalt ring")}
-  else if (x==13) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>26 cocoa bars</span><br>Tier 6 enemies drop slightly more XP")}
-  else if (x==14) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>30 cocoa bars</span><br>Tier 6 enemies drop far more XP")}
-  
+  if (x==1) {$("#cocoaBarMilestoneText").html("<span  style='font-size: 33px; line-height: 42px;'>1 可可砖块</span><br>重置时保留 500,000 经验")}
+  else if (x==2) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>2 可可砖块</span><br>重置时保留 10,000,000 经验")}
+  else if (x==3) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>4 可可砖块</span><br>可可砖块的效果大幅提高")}
+  else if (x==4) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>5 可可砖块</span><br>通过重置获得可可蜂蜜和可可砖块后，经验值等于可可砖块的加成倍数")}
+  else if (x==5) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>9 可可砖块</span><br>可可蜂蜜的获得量提高 1.000F10 倍<br>试着杀一些层级 4 的怪物，然后你就能拿到 10 个可可砖块！")}
+  else if (x==6) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>10 可可砖块</span><br>可以通往 <b>-1 层</b>")}
+  else if (x==7) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>11 可可砖块</span><br>150 层以上的敌人掉落更多的经验 (1/3)")}
+  else if (x==8) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>13 可可砖块</span><br>150 层以上的敌人掉落更多的经验 (2/3)")}
+  else if (x==9) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>15 可可砖块</span><br>150 层以上的敌人掉落更多的经验 (3/3)")}
+  else if (x==10) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>16 可可砖块</span><br>150 层以上的敌人，基于可可砖块的数量掉落更多的经验")}
+  else if (x==11) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>19 可可砖块</span><br>可可蜂蜜的获得量变为 2 的五阶超运算")}
+  else if (x==12) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>20 可可砖块</span><br>将你的暗影戒指打造成钴戒指")}
+  else if (x==13) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>26 可可砖块</span><br>层级 6 的怪物多掉落一点经验")}
+  else if (x==14) {$("#cocoaBarMilestoneText").html("<span style='font-size: 33px; line-height: 42px;'>30 可可砖块</span><br>层级 6 的怪物掉落海量的经验")}
 }
 
 function hideCBM() {
@@ -2100,7 +2099,7 @@ function hideCBM() {
 
 function darkOrbPrestige() {
   if (game.cocoaHoney.gte(darkOrbRequirements[game.darkOrbs])) {
-    if (confirm("Are you sure you want to reset EVERYTHING for a dark orb?")) {
+    if (confirm("你确定要重置所有东西，获得一个黑暗球体吗？")) {
       game.darkOrbs++
       darkOrbReset()
       $("#darkOrbBonuses").html(darkOrbBonuses[game.darkOrbs])
@@ -2173,11 +2172,11 @@ function darkOrbReset() {
   game.darkBars = 0
   game.starBars = 0
   document.getElementsByClassName("combinatorButton")[0].disabled = true
-  document.getElementsByClassName("combinatorText")[0].innerHTML = "Hyperplasm (not unlocked)"
+  document.getElementsByClassName("combinatorText")[0].innerHTML = "超级蜜浆（未解锁）"
   document.getElementsByClassName("combinatorButton")[1].disabled = true
-  document.getElementsByClassName("combinatorText")[1].innerHTML = "Dark bar (not unlocked)"
+  document.getElementsByClassName("combinatorText")[1].innerHTML = "黑暗砖块（未解锁）"
   document.getElementsByClassName("combinatorButton")[2].disabled = true
-  document.getElementsByClassName("combinatorText")[2].innerHTML = "Star bar (not unlocked)"
+  document.getElementsByClassName("combinatorText")[2].innerHTML = "星空砖块（未解锁）"
 
   game.combinatorUpgrades2Bought = [false, false, false, false, false, false, false, false, false, false, false]
 
@@ -2250,7 +2249,7 @@ function buyCombinatorUpgrade(x) {
     game.combinatorUpgradesBought[0] = true
     document.getElementsByClassName("combinatorUpgrade")[0].disabled = true
     document.getElementsByClassName("combinatorButton")[0].disabled = false
-    document.getElementsByClassName("combinatorText")[0].innerHTML = "Hyperplasm"
+    document.getElementsByClassName("combinatorText")[0].innerHTML = "超级蜜浆"
   }
   else if (x==2 && game.hyperplasm.gte(1) && game.combinatorUpgradesBought[1] != true) {
     game.combinatorUpgradesBought[1] = true
@@ -2265,14 +2264,14 @@ function buyCombinatorUpgrade(x) {
     game.combinatorUpgradesBought[3] = true
     document.getElementsByClassName("combinatorUpgrade")[3].disabled = true
     document.getElementsByClassName("combinatorButton")[1].disabled = false
-    document.getElementsByClassName("combinatorText")[1].innerHTML = "Dark bar"
+    document.getElementsByClassName("combinatorText")[1].innerHTML = "黑暗砖块"
     if (game.currentTip == 14) game.currentTip = 15
   }
   else if (x==5 && game.hyperplasm.gte(100) && game.combinatorUpgradesBought[4] != true) {
     game.combinatorUpgradesBought[4] = true
     document.getElementsByClassName("combinatorUpgrade")[4].disabled = true
     document.getElementsByClassName("combinatorButton")[2].disabled = false
-    document.getElementsByClassName("combinatorText")[2].innerHTML = "Star bar"
+    document.getElementsByClassName("combinatorText")[2].innerHTML = "星空砖块"
   }
   else if (x==6 && game.starBars >= 1 && game.combinatorUpgradesBought[5] != true) {
     game.combinatorUpgradesBought[5] = true
@@ -2556,7 +2555,7 @@ function sharkDialogueContinue() {
       $("#sharkText2").html(sharkDialogue1[game.currentSharkDialogue])
     }
     else {
-      $("#sharkText2").html("I'll be waiting here until you can defeat Jelly!")
+      $("#sharkText2").html("我会在这等着你，直到你鲨了那只水母！")
       game.sharkCutscenesViewed = 1
       document.getElementById("floorUpButton").disabled = false
       document.getElementById("floorDownButton").disabled = false
@@ -2577,7 +2576,7 @@ function sharkDialogueContinue() {
       $("#sharkText2").html(sharkDialogue2[game.currentSharkDialogue])
     }
     else {
-      $("#sharkText2").html("I'll be waiting here until you can defeat Jelly!")
+      $("#sharkText2").html("我会在这等着你，直到你鲨了那只水母！")
       game.sharkCutscenesViewed = 2
       document.getElementById("floorUpButton").disabled = false
       document.getElementById("floorDownButton").disabled = false
@@ -2602,7 +2601,7 @@ function sharkDialogueContinue() {
       
     }
     else {
-      $("#sharkText2").html("*Dead noises*")
+      $("#sharkText2").html("*巨大的噪声*")
       game.sharkCutscenesViewed = 3
       document.getElementById("floorUpButton").disabled = false
       document.getElementById("floorDownButton").disabled = false
