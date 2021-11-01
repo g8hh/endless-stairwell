@@ -49,7 +49,7 @@ Mousetrap.bind('p', function() {
 bigShotPlaying = false
 Mousetrap.bind('shift+s', function() {
   if (!bigShotPlaying) {
-    console.log("[[BIG SHOT]] TIME, MOTHERFUCKERS!!!")
+    console.log("摇起来，兄弟们!!!")
     nowsYourChance = new Audio("img/BIG SHOT.mp3")
     nowsYourChance.load()
     nowsYourChance.volume = 0.2
